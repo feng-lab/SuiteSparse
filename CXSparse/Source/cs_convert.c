@@ -1,5 +1,10 @@
 #include "cs.h"
 
+#ifdef _MSC_VER
+#define creal std::real
+#define cimag std::imag
+#endif
+
 /* convert from complex to real (int version) */
 /* C = real(A) if real is true, imag(A) otherwise */
 cs_di *cs_i_real (cs_ci *A, int real)

@@ -34,10 +34,6 @@
 #include <complex>
 typedef std::complex<double> cs_complex_t ;
 #ifdef _MSC_VER
-#define creal std::real
-#define cimag std::imag
-#define conj std::conj
-#define cabs std::abs
 #define I cs_complex_t(0.0, 1.0)
 #endif
 #endif
@@ -648,10 +644,17 @@ cs_cld *cs_cl_ddone (cs_cld *D, cs_cl *C, void *w, cs_long_t ok) ;
 #endif
 
 #ifdef CS_COMPLEX
+#ifdef _MSC_VER
+#define CS_REAL(x) std::real(x)
+#define CS_IMAG(x) std::imag(x)
+#define CS_CONJ(x) std::conj(x)
+#define CS_ABS(x) std::abs(x)
+#else
 #define CS_REAL(x) creal(x)
 #define CS_IMAG(x) cimag(x)
 #define CS_CONJ(x) conj(x)
 #define CS_ABS(x) cabs(x)
+#endif
 #else
 #define CS_REAL(x) (x)
 #define CS_IMAG(x) (0.)
