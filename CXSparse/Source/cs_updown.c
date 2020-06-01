@@ -12,7 +12,11 @@ CS_INT cs_updown (cs *L, CS_INT sigma, const cs *C, const CS_INT *parent)
     Lp = L->p ; Li = L->i ; Lx = L->x ; n = L->n ;
     Cp = C->p ; Ci = C->i ; Cx = C->x ;
     if ((p = Cp [0]) >= Cp [1]) return (1) ;        /* return if C empty */
+#ifdef _MSC_VER
+    w = (CS_ENTRY*)cs_malloc (n, sizeof (CS_ENTRY)) ;          /* get workspace */
+#else
     w = cs_malloc (n, sizeof (CS_ENTRY)) ;          /* get workspace */
+#endif
     if (!w) return (0) ;                            /* out of memory */
     f = Ci [p] ;
     for ( ; p < Cp [1] ; p++) f = CS_MIN (f, Ci [p]) ;  /* f = min (find (C)) */
@@ -22,11 +26,19 @@ CS_INT cs_updown (cs *L, CS_INT sigma, const cs *C, const CS_INT *parent)
     {
         p = Lp [j] ;
         alpha = w [j] / Lx [p] ;                    /* alpha = w(j) / L(j,j) */
+#ifdef _MSC_VER
+        beta2 = beta*beta + CS_REAL(double(sigma)*alpha*CS_CONJ(alpha)) ;
+#else
         beta2 = beta*beta + sigma*alpha*CS_CONJ(alpha) ;
+#endif
         if (beta2 <= 0) break ;                     /* not positive definite */
         beta2 = sqrt (beta2) ;
         delta = (sigma > 0) ? (beta / beta2) : (beta2 / beta) ;
+#ifdef _MSC_VER
+        gamma = double(sigma) * CS_CONJ(alpha) / (beta2 * beta) ;
+#else
         gamma = sigma * CS_CONJ(alpha) / (beta2 * beta) ;
+#endif
         Lx [p] = delta * Lx [p] + ((sigma > 0) ? (gamma * w [j]) : 0) ;
         beta = beta2 ;
 #ifdef CS_COMPLEX

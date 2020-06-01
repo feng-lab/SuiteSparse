@@ -10,7 +10,11 @@ CS_INT cs_lusol (CS_INT order, const cs *A, CS_ENTRY *b, double tol)
     n = A->n ;
     S = cs_sqr (order, A, 0) ;              /* ordering and symbolic analysis */
     N = cs_lu (A, S, tol) ;                 /* numeric LU factorization */
+#ifdef _MSC_VER
+    x = (CS_ENTRY*)cs_malloc (n, sizeof (CS_ENTRY)) ;    /* get workspace */
+#else
     x = cs_malloc (n, sizeof (CS_ENTRY)) ;    /* get workspace */
+#endif
     ok = (S && N && x) ;
     if (ok)
     {

@@ -22,8 +22,16 @@ CS_INT *cs_counts (const cs *A, const CS_INT *parent, const CS_INT *post, CS_INT
     if (!CS_CSC (A) || !parent || !post) return (NULL) ;    /* check inputs */
     m = A->m ; n = A->n ;
     s = 4*n + (ata ? (n+m+1) : 0) ;
+#ifdef _MSC_VER
+    delta = colcount = (CS_INT*)cs_malloc (n, sizeof (CS_INT)) ;    /* allocate result */
+#else
     delta = colcount = cs_malloc (n, sizeof (CS_INT)) ;    /* allocate result */
+#endif
+#ifdef _MSC_VER
+    w = (CS_INT*)cs_malloc (s, sizeof (CS_INT)) ;                   /* get workspace */
+#else
     w = cs_malloc (s, sizeof (CS_INT)) ;                   /* get workspace */
+#endif
     AT = cs_transpose (A, 0) ;                          /* AT = A' */
     if (!AT || !colcount || !w) return (cs_idone (colcount, AT, w, 0)) ;
     ancestor = w ; maxfirst = w+n ; prevleaf = w+2*n ; first = w+3*n ;

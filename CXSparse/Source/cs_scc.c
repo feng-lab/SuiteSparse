@@ -9,7 +9,11 @@ csd *cs_scc (cs *A)     /* matrix A temporarily modified, then restored */
     n = A->n ; Ap = A->p ;
     D = cs_dalloc (n, 0) ;                          /* allocate result */
     AT = cs_transpose (A, 0) ;                      /* AT = A' */
+#ifdef _MSC_VER
+    xi = (CS_INT*)cs_malloc (2*n+1, sizeof (CS_INT)) ;          /* get workspace */
+#else
     xi = cs_malloc (2*n+1, sizeof (CS_INT)) ;          /* get workspace */
+#endif
     if (!D || !AT || !xi) return (cs_ddone (D, AT, xi, 0)) ;
     Blk = xi ; rcopy = pstack = xi + n ;
     p = D->p ; r = D->r ; ATp = AT->p ;

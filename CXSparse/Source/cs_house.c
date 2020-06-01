@@ -11,7 +11,7 @@ CS_ENTRY cs_house (CS_ENTRY *x, double *beta, CS_INT n)
     /* s = norm(x) */
     for (i = 0 ; i < n ; i++) s += x [i] * CS_CONJ (x [i]) ;
     s = sqrt (s) ;
-    if (s == 0)
+    if (s == 0.)
     {
         (*beta) = 0 ;
         x [0] = 1 ;
@@ -19,7 +19,7 @@ CS_ENTRY cs_house (CS_ENTRY *x, double *beta, CS_INT n)
     else
     {
         /* s = sign(x[0]) * norm (x) ; */
-        if (x [0] != 0)
+        if (x [0] != 0.)
         {
             s *= x [0] / CS_ABS (x [0]) ;
         }

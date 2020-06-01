@@ -1,3 +1,12 @@
+CMake script for building a static version of SuiteSparse on macOS, Ubuntu, and Windows with tbb and mkl. Upstream files are mostly untouched except for the new CMakeLists.txt file, the new static-cmake folder, this README.md file, and unfortunately many files in CXSparse. All changes of CXSparse are guarded by the macro `_MSC_VER` and follow the original CXSparse licence. Other changes are licensed under the Apache License, Version 2.0. Tested on macOS 10.15 xcode, Ubuntu 18.04 gcc, and Visual Studio 2019 version 16.6. Example usage:
+
+    cd SuiteSparse_repo_folder
+    mkdir ../SuiteSparse-build
+    mkdir ../SuiteSparse-install-dir
+    cd ../SuiteSparse-build
+    cmake -G 'Ninja' -DCMAKE_INSTALL_PREFIX=../SuiteSparse-install-dir -DCMAKE_BUILD_TYPE=Release -DTBB_DIR=some_folder_for_cmake_findtbb_to_work ../SuiteSparse
+    ninja install
+
 -----------------------------------------------------------------------------
 SuiteSparse:  A Suite of Sparse matrix packages at http://www.suitesparse.com
 -----------------------------------------------------------------------------

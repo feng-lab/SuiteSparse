@@ -8,9 +8,21 @@ csn *cs_chol (const cs *A, const css *S)
     csn *N ;
     if (!CS_CSC (A) || !S || !S->cp || !S->parent) return (NULL) ;
     n = A->n ;
+#ifdef _MSC_VER
+    N = (csn*)cs_calloc (1, sizeof (csn)) ;       /* allocate result */
+#else
     N = cs_calloc (1, sizeof (csn)) ;       /* allocate result */
+#endif
+#ifdef _MSC_VER
+    c = (CS_INT*)cs_malloc (2*n, sizeof (CS_INT)) ;     /* get CS_INT workspace */
+#else
     c = cs_malloc (2*n, sizeof (CS_INT)) ;     /* get CS_INT workspace */
+#endif
+#ifdef _MSC_VER
+    x = (CS_ENTRY*)cs_malloc (n, sizeof (CS_ENTRY)) ;    /* get CS_ENTRY workspace */
+#else
     x = cs_malloc (n, sizeof (CS_ENTRY)) ;    /* get CS_ENTRY workspace */
+#endif
     cp = S->cp ; pinv = S->pinv ; parent = S->parent ;
     C = pinv ? cs_symperm (A, pinv, 1) : ((cs *) A) ;
     E = pinv ? C : NULL ;           /* E is alias for A, or a copy E=A(p,p) */

@@ -59,8 +59,16 @@ CS_INT *cs_amd (CS_INT order, const cs *A)  /* order 0:natural, 1:Chol, 2:LU, 3:
     cs_fkeep (C, &cs_diag, NULL) ;          /* drop diagonal entries */
     Cp = C->p ;
     cnz = Cp [n] ;
+#ifdef _MSC_VER
+    P = (CS_INT*)cs_malloc (n+1, sizeof (CS_INT)) ;     /* allocate result */
+#else
     P = cs_malloc (n+1, sizeof (CS_INT)) ;     /* allocate result */
+#endif
+#ifdef _MSC_VER
+    W = (CS_INT*)cs_malloc (8*(n+1), sizeof (CS_INT)) ; /* get workspace */
+#else
     W = cs_malloc (8*(n+1), sizeof (CS_INT)) ; /* get workspace */
+#endif
     t = cnz + cnz/5 + 2*n ;                 /* add elbow room to C */
     if (!P || !W || !cs_sprealloc (C, t)) return (cs_idone (P, C, W, 0)) ;
     len  = W           ; nv     = W +   (n+1) ; next   = W + 2*(n+1) ;

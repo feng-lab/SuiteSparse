@@ -33,8 +33,17 @@
 #ifndef NCOMPLEX
 #include <complex>
 typedef std::complex<double> cs_complex_t ;
+#ifdef _MSC_VER
+#define creal std::real
+#define cimag std::imag
+#define conj std::conj
+#define cabs std::abs
+#define I cs_complex_t(0.0, 1.0)
 #endif
+#endif
+#ifndef _MSC_VER
 extern "C" {
+#endif
 #else
 #ifndef NCOMPLEX
 #include <complex.h>
@@ -753,6 +762,8 @@ cs_cl *cs_l_complex (cs_dl *A, cs_long_t real) ;
 #endif
 
 #ifdef __cplusplus
+#ifndef _MSC_VER
 }
+#endif
 #endif
 #endif

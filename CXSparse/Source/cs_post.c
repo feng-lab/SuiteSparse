@@ -4,8 +4,16 @@ CS_INT *cs_post (const CS_INT *parent, CS_INT n)
 {
     CS_INT j, k = 0, *post, *w, *head, *next, *stack ;
     if (!parent) return (NULL) ;                        /* check inputs */
+#ifdef _MSC_VER
+    post = (CS_INT*)cs_malloc (n, sizeof (CS_INT)) ;                /* allocate result */
+#else
     post = cs_malloc (n, sizeof (CS_INT)) ;                /* allocate result */
+#endif
+#ifdef _MSC_VER
+    w = (CS_INT*)cs_malloc (3*n, sizeof (CS_INT)) ;                 /* get workspace */
+#else
     w = cs_malloc (3*n, sizeof (CS_INT)) ;                 /* get workspace */
+#endif
     if (!w || !post) return (cs_idone (post, NULL, w, 0)) ;
     head = w ; next = w + n ; stack = w + 2*n ;
     for (j = 0 ; j < n ; j++) head [j] = -1 ;           /* empty linked lists */

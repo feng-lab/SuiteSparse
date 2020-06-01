@@ -6,7 +6,11 @@ CS_INT *cs_randperm (CS_INT n, CS_INT seed)
 {
     CS_INT *p, k, j, t ;
     if (seed == 0) return (NULL) ;      /* return p = NULL (identity) */
+#ifdef _MSC_VER
+    p = (CS_INT*)cs_malloc (n, sizeof (CS_INT)) ;   /* allocate result */
+#else
     p = cs_malloc (n, sizeof (CS_INT)) ;   /* allocate result */
+#endif
     if (!p) return (NULL) ;             /* out of memory */
     for (k = 0 ; k < n ; k++) p [k] = n-k-1 ;
     if (seed == -1) return (p) ;        /* return reverse permutation */

@@ -2,15 +2,31 @@
 /* allocate a sparse matrix (triplet form or compressed-column form) */
 cs *cs_spalloc (CS_INT m, CS_INT n, CS_INT nzmax, CS_INT values, CS_INT triplet)
 {
+#ifdef _MSC_VER
+    cs *A = (cs*)cs_calloc (1, sizeof (cs)) ;    /* allocate the cs struct */
+#else
     cs *A = cs_calloc (1, sizeof (cs)) ;    /* allocate the cs struct */
+#endif
     if (!A) return (NULL) ;                 /* out of memory */
     A->m = m ;                              /* define dimensions and nzmax */
     A->n = n ;
     A->nzmax = nzmax = CS_MAX (nzmax, 1) ;
     A->nz = triplet ? 0 : -1 ;              /* allocate triplet or comp.col */
+#ifdef _MSC_VER
+    A->p = (CS_INT*)cs_malloc (triplet ? nzmax : n+1, sizeof (CS_INT)) ;
+#else
     A->p = cs_malloc (triplet ? nzmax : n+1, sizeof (CS_INT)) ;
+#endif
+#ifdef _MSC_VER
+    A->i = (CS_INT*)cs_malloc (nzmax, sizeof (CS_INT)) ;
+#else
     A->i = cs_malloc (nzmax, sizeof (CS_INT)) ;
+#endif
+#ifdef _MSC_VER
+    A->x = values ? (CS_ENTRY*)cs_malloc (nzmax, sizeof (CS_ENTRY)) : NULL ;
+#else
     A->x = values ? cs_malloc (nzmax, sizeof (CS_ENTRY)) : NULL ;
+#endif
     return ((!A->p || !A->i || (values && !A->x)) ? cs_spfree (A) : A) ;
 }
 
@@ -21,9 +37,21 @@ CS_INT cs_sprealloc (cs *A, CS_INT nzmax)
     if (!A) return (0) ;
     if (nzmax <= 0) nzmax = (CS_CSC (A)) ? (A->p [A->n]) : A->nz ;
     nzmax = CS_MAX (nzmax, 1) ;
+#ifdef _MSC_VER
+    A->i = (CS_INT*)cs_realloc (A->i, nzmax, sizeof (CS_INT), &oki) ;
+#else
     A->i = cs_realloc (A->i, nzmax, sizeof (CS_INT), &oki) ;
+#endif
+#ifdef _MSC_VER
+    if (CS_TRIPLET (A)) A->p = (CS_INT*)cs_realloc (A->p, nzmax, sizeof (CS_INT), &okj) ;
+#else
     if (CS_TRIPLET (A)) A->p = cs_realloc (A->p, nzmax, sizeof (CS_INT), &okj) ;
+#endif
+#ifdef _MSC_VER
+    if (A->x) A->x = (CS_ENTRY*)cs_realloc (A->x, nzmax, sizeof (CS_ENTRY), &okx) ;
+#else
     if (A->x) A->x = cs_realloc (A->x, nzmax, sizeof (CS_ENTRY), &okx) ;
+#endif
     ok = (oki && okj && okx) ;
     if (ok) A->nzmax = nzmax ;
     return (ok) ;
@@ -66,12 +94,32 @@ css *cs_sfree (css *S)
 csd *cs_dalloc (CS_INT m, CS_INT n)
 {
     csd *D ;
+#ifdef _MSC_VER
+    D = (csd*)cs_calloc (1, sizeof (csd)) ;
+#else
     D = cs_calloc (1, sizeof (csd)) ;
+#endif
     if (!D) return (NULL) ;
+#ifdef _MSC_VER
+    D->p = (CS_INT*)cs_malloc (m, sizeof (CS_INT)) ;
+#else
     D->p = cs_malloc (m, sizeof (CS_INT)) ;
+#endif
+#ifdef _MSC_VER
+    D->r = (CS_INT*)cs_malloc (m+6, sizeof (CS_INT)) ;
+#else
     D->r = cs_malloc (m+6, sizeof (CS_INT)) ;
+#endif
+#ifdef _MSC_VER
+    D->q = (CS_INT*)cs_malloc (n, sizeof (CS_INT)) ;
+#else
     D->q = cs_malloc (n, sizeof (CS_INT)) ;
+#endif
+#ifdef _MSC_VER
+    D->s = (CS_INT*)cs_malloc (n+6, sizeof (CS_INT)) ;
+#else
     D->s = cs_malloc (n+6, sizeof (CS_INT)) ;
+#endif
     return ((!D->p || !D->r || !D->q || !D->s) ? cs_dfree (D) : D) ;
 }
 

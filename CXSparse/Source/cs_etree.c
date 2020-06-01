@@ -5,8 +5,16 @@ CS_INT *cs_etree (const cs *A, CS_INT ata)
     CS_INT i, k, p, m, n, inext, *Ap, *Ai, *w, *parent, *ancestor, *prev ;
     if (!CS_CSC (A)) return (NULL) ;        /* check inputs */
     m = A->m ; n = A->n ; Ap = A->p ; Ai = A->i ;
+#ifdef _MSC_VER
+    parent = (CS_INT*)cs_malloc (n, sizeof (CS_INT)) ;              /* allocate result */
+#else
     parent = cs_malloc (n, sizeof (CS_INT)) ;              /* allocate result */
+#endif
+#ifdef _MSC_VER
+    w = (CS_INT*)cs_malloc (n + (ata ? m : 0), sizeof (CS_INT)) ;   /* get workspace */
+#else
     w = cs_malloc (n + (ata ? m : 0), sizeof (CS_INT)) ;   /* get workspace */
+#endif
     if (!w || !parent) return (cs_idone (parent, NULL, w, 0)) ;
     ancestor = w ; prev = w + n ;
     if (ata) for (i = 0 ; i < m ; i++) prev [i] = -1 ;
