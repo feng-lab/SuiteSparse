@@ -287,7 +287,7 @@ endif ( )
 
 file ( GLOB GRAPHBLAS_SOURCES "Source/*.c" "Source/Generated/*.c" )
 
-add_library ( graphblas SHARED ${GRAPHBLAS_SOURCES} )
+add_library ( graphblas STATIC ${GRAPHBLAS_SOURCES} )
 SET_TARGET_PROPERTIES ( graphblas PROPERTIES
     VERSION ${GraphBLAS_VERSION_MAJOR}.${GraphBLAS_VERSION_MINOR}.${GraphBLAS_VERSION_SUB}
     SOVERSION ${GraphBLAS_VERSION_MAJOR}
@@ -427,7 +427,7 @@ message ( STATUS "CMAKE C flags: " ${CMAKE_C_FLAGS} )
 #-------------------------------------------------------------------------------
 
 file ( GLOB DEMO_SOURCES "Demo/Source/*.c" )
-add_library ( graphblasdemo SHARED ${DEMO_SOURCES} )
+add_library ( graphblasdemo STATIC ${DEMO_SOURCES} )
 
 SET_TARGET_PROPERTIES ( graphblasdemo PROPERTIES
     VERSION ${GraphBLAS_VERSION_MAJOR}.${GraphBLAS_VERSION_MINOR}.${GraphBLAS_VERSION_SUB}
