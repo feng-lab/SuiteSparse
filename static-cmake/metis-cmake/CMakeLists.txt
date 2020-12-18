@@ -42,11 +42,13 @@ if (WIN32)
   target_compile_options(${LIBRARY_NAME} PUBLIC /Zc:inline) #
   target_compile_options(${LIBRARY_NAME} PUBLIC /permissive-)
   target_compile_options(${LIBRARY_NAME} PUBLIC /Zc:preprocessor)
+  target_compile_options(${LIBRARY_NAME} PUBLIC /arch:AVX)
 else (WIN32)
   target_compile_options(${LIBRARY_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-frtti>)
   target_compile_options(${LIBRARY_NAME} PUBLIC -fexceptions)
   target_compile_options(${LIBRARY_NAME} PUBLIC -Wall -Wextra)
   target_compile_options(${LIBRARY_NAME} PUBLIC -Waddress -Wdeprecated)
+  target_compile_options(${LIBRARY_NAME} PUBLIC -mavx)
 endif (WIN32)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES PUBLIC_HEADER ${SRCDIR}/include/metis.h)
