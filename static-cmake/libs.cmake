@@ -1,6 +1,6 @@
 if (NOT INTEL_PATH)
   if (WIN32)
-    set(INTEL_PATH "C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries\\windows\\oneapi")
+    set(INTEL_PATH "C:\\Program Files (x86)\\Intel\\oneAPI")
   else (WIN32)
     set(INTEL_PATH /opt/intel/oneapi)
   endif (WIN32)

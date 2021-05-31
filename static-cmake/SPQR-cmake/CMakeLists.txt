@@ -65,7 +65,7 @@ add_library(${LIBRARY_NAME} STATIC ${O_SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC ${SRCDIR}/Include)
 
-target_compile_definitions(${LIBRARY_NAME} PUBLIC -DHAVE_TBB)
+# target_compile_definitions(${LIBRARY_NAME} PUBLIC -DHAVE_TBB)
 
 # compile options
 if (WIN32)
@@ -102,7 +102,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 else ()
   target_link_libraries(${LIBRARY_NAME} PUBLIC ${MKL_LIBRARIES})
 endif ()
-target_link_libraries(${LIBRARY_NAME} PUBLIC TBB::tbb)
+# target_link_libraries(${LIBRARY_NAME} PUBLIC TBB::tbb)
 
 file(GLOB PUBLIC_HEADERS ${SRCDIR}/Include/*.*)
 set_target_properties(${LIBRARY_NAME} PROPERTIES PUBLIC_HEADER "${PUBLIC_HEADERS}")
