@@ -1,6 +1,3 @@
-find_package(TBB REQUIRED tbb)
-print_target_properties(TBB::tbb)
-
 if (NOT INTEL_PATH)
   if (WIN32)
     set(INTEL_PATH "C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries\\windows\\oneapi")
@@ -9,6 +6,11 @@ if (NOT INTEL_PATH)
   endif (WIN32)
 endif ()
 message(STATUS "INTEL_PATH: ${INTEL_PATH}")
+
+set(TBB_DIR ${INTEL_PATH}/tbb/latest/lib/cmake/tbb)
+find_package(TBB REQUIRED tbb)
+print_target_properties(TBB::tbb)
+
 if (WIN32)
   set(MKL_PATH "${INTEL_PATH}\\mkl\\latest")
 else (WIN32)
